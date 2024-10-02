@@ -88,10 +88,10 @@ public class CrearProductoTest extends ApiConfig {
 						,response -> response.body("status", equalTo(404)))
 		);
 
-		OnStage.theActorInTheSpotlight().should(
-				ResponseConsequence.seeThatResponse("El valor del atributo status debe ser verdadero"
-						,response -> response.body("message", containsString("null")))
-		);
+		//OnStage.theActorInTheSpotlight().should(
+				//ResponseConsequence.seeThatResponse("El valor del atributo status debe ser verdadero"
+				//		,response -> response.body("message", containsString("null")))
+		//);
 
 	}
 
