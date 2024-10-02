@@ -30,12 +30,12 @@ public class CrearProductoTest extends ApiConfig {
 	@DisplayName("Crear un nuevo producto de manera exitosa")
 	public void crearNuevoProducto() {
 		ProductRequest nuevoProducto = ProductRequest.builder()
-				.name("Iphone 3000")
+				.name("Iphone 4500")
 				.description("Teléfono de alta gama")
-				.price(4000.0f)
+				.price(4500.0f)
 				.build();
 		
-		OnStage.theActorCalled("Tester").whoCan(CallAnApi.at("http://localhost:8080"));
+		OnStage.theActorCalled("Tester").whoCan(CallAnApi.at("http://localhost:8081"));
 		
 		OnStage.theActorInTheSpotlight().attemptsTo(
 				Post.to("/api/v1/product/")
@@ -46,7 +46,7 @@ public class CrearProductoTest extends ApiConfig {
 				);
 		
 		OnStage.theActorInTheSpotlight().should(
-				ResponseConsequence.seeThatResponse("El codigo de la respuesta es 201", response -> response.statusCode(201))
+				ResponseConsequence.seeThatResponse("El codigo de respuesta es 201", response -> response.statusCode(201))
 				);
 		OnStage.theActorInTheSpotlight().should(
 				ResponseConsequence.seeThatResponse("El valor del atributo status debe ser verdadero"
