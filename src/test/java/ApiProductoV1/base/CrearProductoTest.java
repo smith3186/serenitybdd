@@ -59,6 +59,51 @@ public class CrearProductoTest extends ApiConfig {
 				);
 
 	}
+
+
+	@Test
+	@DisplayName("Error de nuevo producto de manera exitosa")
+	public void ErrorNuevoProducto() {
+		ProductRequest nuevoProducto = ProductRequest.builder()
+				.name("Iphone 4500")
+				.description("Teléfono de alta gama")
+				.price(4500.0f)
+				.build();
+
+		OnStage.theActorCalled("Tester").whoCan(CallAnApi.at("http://localhost:8081"));
+
+		OnStage.theActorInTheSpotlight().attemptsTo(
+				Post.to("/api/v1/product")
+						.with(
+								request -> request
+										.body(nuevoProducto).log().all()
+						)
+		);
+
+		OnStage.theActorInTheSpotlight().should(
+				ResponseConsequence.seeThatResponse("El codigo de respuesta es 404", response -> response.statusCode(404))
+		);
+		OnStage.theActorInTheSpotlight().should(
+				ResponseConsequence.seeThatResponse("El valor del atributo status debe ser verdadero"
+						,response -> response.body("status", equalTo(404)))
+		);
+
+		OnStage.theActorInTheSpotlight().should(
+				ResponseConsequence.seeThatResponse("El valor del atributo status debe ser verdadero"
+						,response -> response.body("message", containsString("null")))
+		);
+
+	}
+
+
+
+
+
+
+
+
+
+
 	@Test
 	@DisplayName("Crear un nuevo producto aplicando pregunta para validar")
 	public void crearNuevoProductoConPregunta() {
@@ -68,7 +113,7 @@ public class CrearProductoTest extends ApiConfig {
 				.price(3000.0f)
 				.build();
 		
-		OnStage.theActorCalled("Tester").whoCan(CallAnApi.at("http://localhost:8080"));
+		OnStage.theActorCalled("Tester").whoCan(CallAnApi.at("http://localhost:8081"));
 		
 		OnStage.theActorInTheSpotlight().attemptsTo(
 				Post.to("/api/v1/product/")
